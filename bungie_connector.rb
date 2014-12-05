@@ -1,8 +1,6 @@
 require 'net/http'
 require 'json'
-require 'byebug'
 require 'open-uri'
-require "awesome_print"
 
 class BungieConnector
   SULFATER_MEMBERS = %w(cads79 kirainetjp rod_zordor ae86tgt)
