@@ -48,8 +48,41 @@ class BungieConnector
       char_hash['progress_to_next_level'] = char["levelProgression"]["progressToNextLevel"]
       char_hash['next_level_at'] = char["levelProgression"]["nextLevelAt"]
       char_hash['total_minutes_played'] = char["characterBase"]["minutesPlayedTotal"]
+      char_hash['race'] = key_to_string(char["characterBase"]["raceHash"])
+      char_hash['gender'] = key_to_string(char["characterBase"]["genderHash"])
+      char_hash['class'] = key_to_string(char["characterBase"]["classHash"])
       characters << char_hash
     end
     characters
+  end
+
+  def key_to_string(key)
+    bungie_hash[key.to_s]
+  end
+
+  def bungie_hash
+    {
+     '3159615086' => 'glimmer',
+     '1415355184' => 'crucible marks',
+     '1415355173' => 'vanguard marks',
+     '898834093' => 'exo',
+     '3887404748' => 'human',
+     '2803282938' => 'awoken',
+     '3111576190' => 'male',
+     '2204441813' => 'female',
+     '671679327' => 'hunter',
+     '3655393761' => 'titan',
+     '2271682572' => 'warlock',
+     '3871980777' => 'New Monarchy',
+     '529303302' => 'Cryptarch',
+     '2161005788' => 'Iron Banner',
+     '452808717' => 'Queen',
+     '3233510749' => 'Vanguard',
+     '1357277120' => 'Crucible',
+     '2778795080' => 'Dead Orbit',
+     '1424722124' => 'Future War Cult',
+     '2033897742' => 'Weekly Vanguard Marks',
+     '2033897755' => 'Weekly Vanguard Marks'
+    }
   end
 end
