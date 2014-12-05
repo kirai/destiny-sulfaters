@@ -36,7 +36,7 @@
   Version 2
   <br/>
   <div class="row">
-  <% members.each_with_index do |member| %>
+  <% members.each_with_index do |member, m| %>
       <div class="col-sm-3 col-md-3">
         <h1><center><%= member["name"] %></center></h1>
         <ul class="list-group">
@@ -52,7 +52,7 @@
             </div>
           </li>
         </ul>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel-group" id="accordion_<%=m%>" role="tablist" aria-multiselectable="true">
           <% member["characters"].each_with_index do |character, i| %>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="heading_<%=member["name"]%>_<%=i%>">
