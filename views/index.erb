@@ -1,7 +1,27 @@
 Sulfaters!!!
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+
+<center>
+<img src="/public/logo.png" /></center>
+
+<div class="row">
 <% members.each do |member| %>
   <div>
+    <div class="col-sm-3 col-md-3">
+
     <%= member %>
+    </div>
   </div>
   <br/>
 <% end %>
+</div>
+
+</body>
