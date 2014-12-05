@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+    	h1 {
+			color:lightgray;
+		}
+	</style>
+    
   </head>
-  <body>
-
-<center>
-<img src="logo.png" /></center>
+<body style="background:black">
+<center><img src="logo.png" /></center>
 
 <div class="row">
 <% members.each do |member| %>
     <div class="col-sm-3 col-md-3">
-    <h1><%= member["name"] %></h1>
+    <h1><center><%= member["name"] %></center></h1>
     <ul class="list-group">
-      <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
-      <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
-      <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
-      <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
+      <li class="list-group-item list-group-item-success"><img src=<%= member["name"]+".png" %>/></li>
+      <li class="list-group-item list-group-item-info">Glimmer <%= member["glimmer"] %></li>
+      <li class="list-group-item list-group-item-warning">Grimoire Score <%= member["grimoire_score"] %></li>
+      <li class="list-group-item list-group-item-danger">Level <%= member["characters"][0]["power_level"] %></li>
+      <li class="list-group-item list-group-item-success">Total minutes played <%= member["characters"][0]["total_minutes_played"] %></li>
+      <li class="list-group-item list-group-item-success">Progress to next level <%= member["characters"][0]["percent_to_next_level"] %></li>
     </ul>
     </div>
 <% end %>
