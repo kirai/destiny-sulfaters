@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bootstrap 101 Template</title>
+    <title>Destiny - Sulfaters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -15,7 +15,7 @@
   </head>
 
 <body style="background:black">
-  <center><img src="logo.png" /></center>
+  <center><img src="logo.png" class="img-responsive"/></center>
 
   <div class="row">
   <% members.each do |member| %>
@@ -57,7 +57,7 @@
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="heading_<%=member["name"]%>_<%=i%>">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_<%=member["name"]%>_<%=i%>" aria-expanded= <%= i == 0 ? "true" : "false" %> aria-controls="collapse_<%=member["name"]%>_<%=i%>">
+                <a data-toggle="collapse" data-parent="#accordion_<%=m%>" href="#collapse_<%=member["name"]%>_<%=i%>" aria-expanded= <%= i == 0 ? "true" : "false" %> aria-controls="collapse_<%=member["name"]%>_<%=i%>">
                   <%= "#{character['race']} #{character['gender']} #{character['class']}".capitalize %>
                 </a>
               </h4>
