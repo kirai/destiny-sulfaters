@@ -14,4 +14,5 @@ get '/' do
     member_hash['characters']= connector.characters_by_member(member)
     members << member_hash
   end
+  erb :index, :locals => {members: members}
 end
