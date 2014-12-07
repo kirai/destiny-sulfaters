@@ -16,25 +16,6 @@
 
 <body style="background:black">
   <center><img src="logo.png" class="img-responsive"/></center>
-
-  <div class="row">
-  <% members.each do |member| %>
-      <div class="col-sm-3 col-md-3">
-      <h1><center><%= member["name"] %></center></h1>
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-success"><img src=<%= member["name"]+".png" %>/></li>
-        <li class="list-group-item list-group-item-info">Glimmer <%= member["glimmer"] %></li>
-        <li class="list-group-item list-group-item-warning">Grimoire Score <%= member["grimoire_score"] %></li>
-        <li class="list-group-item list-group-item-danger">Level <%= member["characters"][0]["power_level"] %></li>
-        <li class="list-group-item list-group-item-success">Total minutes played <%= member["characters"][0]["total_minutes_played"] %></li>
-        <li class="list-group-item list-group-item-success">Progress to next level <%= member["characters"][0]["percent_to_next_level"] %></li>
-      </ul>
-      </div>
-  <% end %>
-  </div>
-
-  Version 2
-  <br/>
   <div class="row">
   <% members.each_with_index do |member, m| %>
       <div class="col-sm-3 col-md-3">
