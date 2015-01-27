@@ -1,6 +1,8 @@
 require 'net/http'
 require 'json'
 require 'open-uri'
+require 'byebug'
+require 'awesome_print'
 
 class BungieConnector
   SULFATER_MEMBERS = %w(cads79 kirainetjp rod_zordor ae86tgt)
@@ -51,6 +53,8 @@ class BungieConnector
       char_hash['race'] = key_to_string(char["characterBase"]["raceHash"])
       char_hash['gender'] = key_to_string(char["characterBase"]["genderHash"])
       char_hash['class'] = key_to_string(char["characterBase"]["classHash"])
+      char_hash['emblem_path'] = char["emblemPath"]
+      char_hash['emblem_background'] = char["backgroundPath"]
       characters << char_hash
     end
     characters
