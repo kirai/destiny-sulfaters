@@ -1,0 +1,43 @@
+- error = @user.errors.include?(:clan_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :clan_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :clan_id, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:clan_id, :class => 'text-error') : pat(:example)
+- error = @user.errors.include?(:email)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :email, :class => 'control-label'
+  div class='controls'
+    = f.text_field :email, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:email, :class => 'text-error') : pat(:example)
+- error = @user.errors.include?(:password)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :password, :class => 'control-label'
+  div class='controls'
+    = f.text_field :password, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:password, :class => 'text-error') : pat(:example)
+- error = @user.errors.include?(:token)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :token, :class => 'control-label'
+  div class='controls'
+    = f.text_field :token, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:token, :class => 'text-error') : pat(:example)
+- error = @user.errors.include?(:username)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :username, :class => 'control-label'
+  div class='controls'
+    = f.text_field :username, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:username, :class => 'text-error') : pat(:example)
+- error = @user.errors.include?(:platform)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :platform, :class => 'control-label'
+  div class='controls'
+    = f.text_field :platform, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:platform, :class => 'text-error') : pat(:example)
+
+div class="form-actions"
+  = f.submit pat(:save), :class => 'btn btn-primary'
+  |&nbsp;
+  = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  |&nbsp;
+  = link_to pat(:cancel), url(:users, :index), :class => 'btn btn-default'
