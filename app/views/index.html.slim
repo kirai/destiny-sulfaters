@@ -1,32 +1,38 @@
-
 div class="row"
-  - @members.each_with_index do |member, m|
-    div class="col-sm-3 col-md-3"
-      h1
-        center
-          = member["name"]
-      ul class="list-group"
-        li class="list-group-item list-group-item-success"
-          div class="row"
-            div class="col-sm-6 col-md-6"
-              img src= "http://www.bungie.net#{member["characters"].first["emblem_path"]}"
-            div class="col-sm-6 col-md-6"
-              p = "Glimmer #{member['glimmer']}"
-              p = "Grimoire Score #{member['grimoire_score']}"
-      div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
-        - member["characters"].each_with_index do |character, i|
-          div class="panel panel-default"
-            div class="panel-heading" role="tab" id="heading_#{member["name"]}_#{i}"
-              h4 class="panel-title"
-                a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
-                  = "#{character['race']} #{character['gender']} #{character['class']}".capitalize
+  - @roster.keys.each do |clan_id|
+    - clan = Clan.find(clan_id)
+    - members = @roster[clan_id]
+    h1
+      center
+        = clan.name
+    div class="row"
+      - members.each_with_index do |member, m|
+        div class="col-sm-3 col-md-3"
+          h1
+            center
+              = member["name"]
+          ul class="list-group"
+            li class="list-group-item list-group-item-success"
+              div class="row"
+                div class="col-sm-6 col-md-6"
+                  img src= "http://www.bungie.net#{member["characters"].first["emblem_path"]}"
+                div class="col-sm-6 col-md-6"
+                  p = "Glimmer #{member['glimmer']}"
+                  p = "Grimoire Score #{member['grimoire_score']}"
+          div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
+            - member["characters"].each_with_index do |character, i|
+              div class="panel panel-default"
+                div class="panel-heading" role="tab" id="heading_#{member["name"]}_#{i}"
+                  h4 class="panel-title"
+                    a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
+                      = "#{character['race']} #{character['gender']} #{character['class']}".capitalize
 
-            div id="collapse_#{member["name"]}_#{i}" class= "#{i == 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse'}"  role="tabpanel" aria-labelledby="heading_#{i}"
-              div class="panel-body"
-                ul class="list-group"
-                  li class="list-group-item list-group-item-info"
-                    ="Level #{character['power_level']}"
-                  li class="list-group-item list-group-item-warning"
-                    ="Total minutes played #{character['total_minutes_played']}"
-                  li class="list-group-item list-group-item-danger"
-                    ="Progress to next level #{character['percent_to_next_level']}"
+                div id="collapse_#{member["name"]}_#{i}" class= "#{i == 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse'}"  role="tabpanel" aria-labelledby="heading_#{i}"
+                  div class="panel-body"
+                    ul class="list-group"
+                      li class="list-group-item list-group-item-info"
+                        ="Level #{character['power_level']}"
+                      li class="list-group-item list-group-item-warning"
+                        ="Total minutes played #{character['total_minutes_played']}"
+                      li class="list-group-item list-group-item-danger"
+                        ="Progress to next level #{character['percent_to_next_level']}"
