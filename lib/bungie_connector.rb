@@ -44,20 +44,91 @@ class BungieConnector
     member_id = get_id_for_member(member_name)
     raw_data = get_data_for_id(member_id)
     raw_data["data"]["characters"].each do |char|
+      char_url = "http://www.bungie.net/Platform/Destiny/TigerPSN/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/?definitions=true"
+      char_json = JSON.parse(open(char_url).read)["Response"]
+      character_data_json = char_json["data"]
+      character_definitions_json = char_json["definitions"]
+
+      rep_url = "http://www.bungie.net/Platform/Destiny/TigerPSN/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/Progression/?definitions=true&fmt=true"
+      rep_json = JSON.parse(open(rep_url).read)["Response"]
+      rep_data_json = rep_json["data"]
+      rep_definitions_json = rep_json["definitions"]
+
       char_hash = {}
-      char_hash['power_level'] = char["characterBase"]["powerLevel"]
-      char_hash['percent_to_next_level'] = char["percentToNextLevel"]
-      char_hash['progress_to_next_level'] = char["levelProgression"]["progressToNextLevel"]
-      char_hash['next_level_at'] = char["levelProgression"]["nextLevelAt"]
-      char_hash['total_minutes_played'] = char["characterBase"]["minutesPlayedTotal"]
-      char_hash['race'] = key_to_string(char["characterBase"]["raceHash"])
-      char_hash['gender'] = key_to_string(char["characterBase"]["genderHash"])
-      char_hash['class'] = key_to_string(char["characterBase"]["classHash"])
-      char_hash['emblem_path'] = char["emblemPath"]
-      char_hash['emblem_background'] = char["backgroundPath"]
+      char_hash['power_level'] = character_data_json["characterBase"]["powerLevel"]
+      char_hash['last_played'] = character_data_json["characterBase"]["dateLastPlayed"]
+      char_hash['last_minutes_played'] = character_data_json["characterBase"]["minutesPlayedThisSession"]
+      char_hash['percent_to_next_level'] = character_data_json["percentToNextLevel"]
+      char_hash['progress_to_next_level'] = character_data_json["levelProgression"]["progressToNextLevel"]
+      char_hash['next_level_at'] = character_data_json["levelProgression"]["nextLevelAt"]
+      char_hash['daily_progress'] = character_data_json["levelProgression"]["dailyProgress"]
+      char_hash['weekly_progress'] = character_data_json["levelProgression"]["weeklyProgress"]
+      char_hash['current_progress'] = character_data_json["levelProgression"]["currentProgress"]
+      char_hash['is_prestige_level'] = character_data_json["isPrestigeLevel"]
+      char_hash['total_minutes_played'] = character_data_json["characterBase"]["minutesPlayedTotal"]
+      char_hash['race'] = key_to_string(character_data_json["characterBase"]["raceHash"])
+      char_hash['gender'] = key_to_string(character_data_json["characterBase"]["genderHash"])
+      char_hash['class'] = key_to_string(character_data_json["characterBase"]["classHash"])
+      char_hash['emblem_path'] = character_data_json["emblemPath"]
+      char_hash['emblem_background'] = character_data_json["backgroundPath"]
+      char_gear_keys = char["characterBase"]["peerView"]["equipment"].collect{|i| i["itemHash"]}
+      char_hash['gear'] = set_gear_from_data(char_gear_keys, character_definitions_json["items"])
+      char_hash['reputation'] = set_reputation_from_data(rep_data_json, rep_definitions_json)
       characters << char_hash
     end
     characters
+  end
+
+  def set_gear_from_data(keys, data)
+    gear = {}
+    gear["subclass"] = data[keys[0].to_s]
+    gear["helmet"] = data[keys[1].to_s]
+    gear["gaunlets"] = data[keys[2].to_s]
+    gear["chest"] = data[keys[3].to_s]
+    gear["boots"] = data[keys[4].to_s]
+    gear["class_armor"] = data[keys[5].to_s]
+    gear["primary_weapon"] = data[keys[6].to_s]
+    gear["special_weapon"] = data[keys[7].to_s]
+    gear["heavy_weapon"] = data[keys[8].to_s]
+    gear["ship"] = data[keys[9].to_s]
+    gear["sparrow"] = data[keys[10].to_s]
+    gear["ghost_shell"] = data[keys[11].to_s]
+    gear["emblem"] = data[keys[12].to_s]
+    gear["shader"] = data[keys[13].to_s]
+    return gear
+  end
+
+  def set_reputation_from_data(rep_data, def_data)
+    rep = {}
+    keys = rep_data["progressions"].collect{|i| i["progressionHash"]}
+    # rep["banhammer_pvp_idleness"] = rep_data["progressions"][0].merge(def_data["progressions"][keys[0].to_s])
+    # rep["banhammer_pvp_quitterness"] = rep_data["progressions"][1].merge(def_data["progressions"][keys[1].to_s])
+    # rep["base_item_level"] = rep_data["progressions"][2].merge(def_data["progressions"][keys[2].to_s])
+    # rep["character_display_xp"] = rep_data["progressions"][3].merge(def_data["progressions"][keys[3].to_s])
+    # rep["character_level"] = rep_data["progressions"][4].merge(def_data["progressions"][keys[4].to_s])
+    rep["character_prestige"] = rep_data["progressions"][5].merge(def_data["progressions"][keys[5].to_s])
+    # rep["death_penalty"] = rep_data["progressions"][6].merge(def_data["progressions"][keys[6].to_s])
+    rep["destination_chests_cosmodrome"] = rep_data["progressions"][7].merge(def_data["progressions"][keys[7].to_s])
+    rep["destination_chests_mars"] = rep_data["progressions"][8].merge(def_data["progressions"][keys[8].to_s])
+    rep["destination_chests_moon"] = rep_data["progressions"][9].merge(def_data["progressions"][keys[9].to_s])
+    rep["destination_chests_venus"] = rep_data["progressions"][10].merge(def_data["progressions"][keys[10].to_s])
+    rep["faction_cryptarch"] = rep_data["progressions"][11].merge(def_data["progressions"][keys[11].to_s])
+    rep["faction_eris"] = rep_data["progressions"][12].merge(def_data["progressions"][keys[12].to_s])
+    rep["faction_event_iron_banner"] = rep_data["progressions"][13].merge(def_data["progressions"][keys[13].to_s])
+    rep["faction_event_queen"] = rep_data["progressions"][14].merge(def_data["progressions"][keys[14].to_s])
+    rep["faction_fotc_vanguard"] = rep_data["progressions"][15].merge(def_data["progressions"][keys[15].to_s])
+    rep["faction_pvp"] = rep_data["progressions"][16].merge(def_data["progressions"][keys[16].to_s])
+    rep["faction_pvp_dead_orbit"] = rep_data["progressions"][17].merge(def_data["progressions"][keys[17].to_s])
+    rep["faction_pvp_future_war_cult"] = rep_data["progressions"][18].merge(def_data["progressions"][keys[18].to_s])
+    rep["faction_pvp_new_monarchy"] = rep_data["progressions"][19].merge(def_data["progressions"][keys[19].to_s])
+    # rep["pvp_iron_banner.loss_tokens"] = rep_data["progressions"][20].merge(def_data["progressions"][keys[20].to_s])
+    # rep["pvp_tournament0.losses"] = rep_data["progressions"][21].merge(def_data["progressions"][keys[21].to_s])
+    # rep["pvp_tournament0.wins"] = rep_data["progressions"][22].merge(def_data["progressions"][keys[22].to_s])
+    # rep["superior_gear_material_source"] = rep_data["progressions"][23].merge(def_data["progressions"][keys[23].to_s])
+    # rep["terminals"] = rep_data["progressions"][24].merge(def_data["progressions"][keys[24].to_s])
+    # rep["weekly_pve"] = rep_data["progressions"][25].merge(def_data["progressions"][keys[25].to_s])
+    # rep["weekly_pvp"] = rep_data["progressions"][26].merge(def_data["progressions"][keys[26].to_s])
+    return rep
   end
 
   def key_to_string(key)
