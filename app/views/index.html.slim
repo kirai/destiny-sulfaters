@@ -35,8 +35,8 @@ div class="container-fluid"
                         div class="col-sm-3 col-md-3 pull-right" style="cursor:pointer;"
                           img src= "http://www.bungie.net#{emblem}" style="width:40px; height: 40px;" onclick="hide_panel('#{member['name']}', #{i})"
             div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
-              - member["characters"].each_with_index do |character, i|
-                div role="tab" id="heading_#{member["name"]}_#{i}" class="heading_#{member["name"]}" style="display: #{i == 0 ? 'block' : 'none'}"
+              - member["characters"].reverse.each_with_index do |character, i|
+                div role="tab" id="heading_#{member["name"]}_#{i}" class="heading_#{member["name"]}" style="display: #{member["characters"].first == character ? 'block' : 'none'}"
                   h4 class="panel-title"
                     a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
                       div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block"
