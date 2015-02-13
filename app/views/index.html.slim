@@ -28,7 +28,7 @@ div class="container-fluid"
                       br
                       = "Grimoire Score #{member['grimoire_score']}"
                     - emblems = []
-                    - member["characters"].each_with_index{|char| emblems << char["emblem_path"]}
+                    - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
                     - if emblems.any?
                       div class="row" style="display:block; margin:auto;"
                       - emblems.each_with_index do |emblem, i|
