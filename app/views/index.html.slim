@@ -1,28 +1,41 @@
-div class="row"
-  - @roster.keys.each do |clan_id|
-    - clan = Clan.find(clan_id)
-    - members = @roster[clan_id]
-    h1
-      center
-        = clan.name
-    div class="row"
-      - members.each_with_index do |member, m|
-        div class="col-sm-3 col-md-3"
-          center
-            li class="list-group-item" style="background:black; border:0px; color:white"
-              div class="row"
-                div class="col-sm-6 col-md-6"
-                  h2
-                    = member["name"]
-                div style="float:right; color:lightgrey"
-                  = "Glimmer #{member['glimmer']}"
-                  br
-                  = "Grimoire Score #{member['grimoire_score']}"
-          br
-          div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
-            - member["characters"].each_with_index do |character, i|
-              div
-                div role="tab" id="heading_#{member["name"]}_#{i}"
+javascript:
+  var hide_panel = function(name, index){
+    var panel_id = '#heading_'+ name + '_' + index;
+    var member_class = '.heading_'+ name;
+    $(member_class).hide();
+    $(panel_id).toggle();
+  }
+div class="container-fluid"
+  div class="row"
+    - @roster.keys.each do |clan_id|
+      - clan = Clan.find(clan_id)
+      - members = @roster[clan_id]
+      h1
+        center
+          = clan.name
+      div class="row"
+        - members.each_with_index do |member, m|
+          div class="col-sm-3 col-md-3"
+            center
+              li class="list-group-item" style="background:black; border:0px; color:white"
+                div class="row"
+                  div class="col-sm-6 col-md-6"
+                    h2
+                      = member["name"]
+                  div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey"
+                    = "Glimmer #{member['glimmer']}"
+                    br
+                    = "Grimoire Score #{member['grimoire_score']}"
+                    - emblems = []
+                    - member["characters"].each_with_index{|char| emblems << char["emblem_path"]} if member["characters"].count > 1
+                    - if emblems.any?
+                      div class="row" style="display:block;"
+                      - emblems.each_with_index do |emblem, i|
+                        div class="col-sm-3 col-md-3 pull-left" style="cursor:pointer;"
+                          img src= "http://www.bungie.net#{emblem}" style="width:40px; height: 40px;" onclick="hide_panel('#{member['name']}', #{i})"
+            div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
+              - member["characters"].each_with_index do |character, i|
+                div role="tab" id="heading_#{member["name"]}_#{i}" class="heading_#{member["name"]}" style="display: #{i == 0 ? 'block' : 'none'}"
                   h4 class="panel-title"
                     a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
                       div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block"
@@ -31,19 +44,19 @@ div class="row"
                         span style="float:right; font-size:40px; top:8px"
                           ="#{character['power_level']}"
 
-              div id="collapse_#{member["name"]}_#{i}" class= "panel-collapse collapse in"  role="tabpanel" aria-labelledby="heading_#{i}"
-                div class="panel-body"
-                  ul class="list-group"
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["subclass"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["primary_weapon"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["special_weapon"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["heavy_weapon"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["helmet"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["gaunlets"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["chest"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["boots"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["class_armor"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["shader"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["ship"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["sparrow"] }
-                    = partial '/users/gear_row', locals: { gear: character["gear"]["ghost_shell"] }
+                  div id="collapse_#{member["name"]}_#{i}" class= "panel-collapse collapse in"  role="tabpanel" aria-labelledby="heading_#{i}"
+                    div class="panel-body"
+                      ul class="list-group"
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["subclass"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["primary_weapon"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["special_weapon"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["heavy_weapon"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["helmet"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["gaunlets"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["chest"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["boots"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["class_armor"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["shader"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["ship"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["sparrow"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["ghost_shell"] }
