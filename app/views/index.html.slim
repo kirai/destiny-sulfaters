@@ -6,7 +6,7 @@ javascript:
     $(panel_id).toggle();
   }
 div class="container-fluid"
-  div class="row" style="width:95%; margin:auto;"
+  div class="row" style="width:99%; margin:auto;"
     - @roster.keys.each do |clan_id|
       - clan = Clan.find(clan_id)
       - members = @roster[clan_id]
@@ -39,10 +39,10 @@ div class="container-fluid"
                 div role="tab" id="heading_#{member["name"]}_#{i}" class="heading_#{member["name"]}" style="display: #{member["characters"].first == character ? 'block' : 'none'}"
                   h4 class="panel-title"
                     a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
-                      div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block"
+                      div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block; font-size:15px"
                         img src= "http://www.bungie.net#{character["emblem_path"]}"
                         = "#{character['gender']} #{character['race']} #{character['class']}".capitalize
-                        span style="float:right; font-size:40px; top:8px"
+                        span style="float:right; font-size:30px; top:8px"
                           ="#{character['power_level']}"
 
                   div id="collapse_#{member["name"]}_#{i}" class= "panel-collapse collapse in"  role="tabpanel" aria-labelledby="heading_#{i}"
