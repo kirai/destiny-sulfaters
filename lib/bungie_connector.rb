@@ -7,16 +7,29 @@ require 'awesome_print'
 class BungieConnector
   SULFATER_MEMBERS = %w(cads79 kirainetjp rod_zordor ae86tgt)
   PLAYSTATION = 2
-  XBOX = 1
+  PSN_PLATFORM = "TigerPSN"
 
-  def get_id_for_member(member_name)
-    url = "http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/#{PLAYSTATION}/#{member_name}/"
+  XBOX = 1
+  XBOX_PLATFORM = "TigerXbox"
+
+  def get_platform(member)
+    case member.platform.to_s
+    when "1"
+      XBOX_PLATFORM
+    when "2"
+      PSN_PLATFORM
+    end
+  end
+
+  def get_id_for_member(member)
+    url = "http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/#{member.platform}/#{member.username}/"
     member_json = JSON.parse(open(url).read)
     member_json["Response"].first["membershipId"]
   end
 
-  def get_data_for_id(member_id)
-    url = "http://www.bungie.net/Platform/Destiny/TigerPSN/Account/#{member_id}/"
+  def get_data_for_id(member, member_id)
+    platform_name = get_platform(member)
+    url = "http://www.bungie.net/Platform/Destiny/#{platform_name}/Account/#{member_id}/"
     member_data_json = JSON.parse(open(url).read)
     member_data_json["Response"]
   end
@@ -30,26 +43,28 @@ class BungieConnector
     clan_data
   end
 
-  def member_data(member_name)
-    member_id = get_id_for_member(member_name)
-    raw_data = get_data_for_id(member_id)
+  def member_data(member)
+    member_id = get_id_for_member(member)
+    raw_data = get_data_for_id(member, member_id)
     data = {}
     data['glimmer'] = raw_data["data"]["inventory"]["currencies"].first["value"]
     data['grimoire_score'] = raw_data["data"]["grimoireScore"]
     data
   end
 
-  def characters_by_member(member_name)
+  def characters_by_member(member)
     characters = []
-    member_id = get_id_for_member(member_name)
-    raw_data = get_data_for_id(member_id)
+    member_id = get_id_for_member(member)
+    raw_data = get_data_for_id(member, member_id)
+    platform = get_platform(member)
+
     raw_data["data"]["characters"].each do |char|
-      char_url = "http://www.bungie.net/Platform/Destiny/TigerPSN/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/?definitions=true"
+      char_url = "http://www.bungie.net/Platform/Destiny/#{platform}/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/?definitions=true"
       char_json = JSON.parse(open(char_url).read)["Response"]
       character_data_json = char_json["data"]
       character_definitions_json = char_json["definitions"]
 
-      rep_url = "http://www.bungie.net/Platform/Destiny/TigerPSN/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/Progression/?definitions=true&fmt=true"
+      rep_url = "http://www.bungie.net/Platform/Destiny/#{platform}/Account/#{member_id}/Character/#{char["characterBase"]["characterId"]}/Progression/?definitions=true&fmt=true"
       rep_json = JSON.parse(open(rep_url).read)["Response"]
       rep_data_json = rep_json["data"]
       rep_definitions_json = rep_json["definitions"]

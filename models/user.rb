@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
       hash['name'] = self.username
       hash['glimmer'] = member_data['glimmer']
       hash['grimoire_score'] = member_data['grimoire_score']
-      hash['characters']= connector.characters_by_member(self.username)
+      hash['characters']= connector.characters_by_member(self)
       Padrino.cache.store "cached_hash_#{self.id}", hash, expires: 3600
     end
     return hash

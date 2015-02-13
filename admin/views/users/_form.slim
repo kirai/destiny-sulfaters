@@ -2,7 +2,7 @@
 fieldset class='control-group#{error ? ' has-error' : ''}'
   = f.label :clan_id, :class => 'control-label'
   div class='controls'
-    = f.text_field :clan_id, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    = f.select :clan_id, :options => @clans, :class => 'form-control input-large input-with-feedback', :autofocus => true
     span class='help-inline' = error ? f.error_message_on(:clan_id, :class => 'text-error') : pat(:example)
 - error = @user.errors.include?(:email)
 fieldset class='control-group#{error ? ' has-error' : ''}'
@@ -32,7 +32,7 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
 fieldset class='control-group#{error ? ' has-error' : ''}'
   = f.label :platform, :class => 'control-label'
   div class='controls'
-    = f.text_field :platform, :class => 'form-control input-large input-with-feedback'
+    = f.select :platform, :options => [["Xbox", 1], ["PSN", 2]], :class => 'form-control input-large input-with-feedback'
     span class='help-inline' = error ? f.error_message_on(:platform, :class => 'text-error') : pat(:example)
 
 div class="form-actions"
