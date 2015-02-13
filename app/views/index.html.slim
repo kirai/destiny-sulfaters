@@ -6,7 +6,7 @@ javascript:
     $(panel_id).toggle();
   }
 div class="container-fluid"
-  div class="row"
+  div class="row" style="width:95%; margin:auto;"
     - @roster.keys.each do |clan_id|
       - clan = Clan.find(clan_id)
       - members = @roster[clan_id]
@@ -23,15 +23,16 @@ div class="container-fluid"
                     h2
                       = member["name"]
                   div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey"
-                    = "Glimmer #{member['glimmer']}"
-                    br
-                    = "Grimoire Score #{member['grimoire_score']}"
+                    p
+                      = "Glimmer #{member['glimmer']}"
+                      br
+                      = "Grimoire Score #{member['grimoire_score']}"
                     - emblems = []
-                    - member["characters"].each_with_index{|char| emblems << char["emblem_path"]} if member["characters"].count > 1
+                    - member["characters"].each_with_index{|char| emblems << char["emblem_path"]}
                     - if emblems.any?
-                      div class="row" style="display:block;"
+                      div class="row" style="display:block; margin:auto;"
                       - emblems.each_with_index do |emblem, i|
-                        div class="col-sm-3 col-md-3 pull-left" style="cursor:pointer;"
+                        div class="col-sm-3 col-md-3 pull-right" style="cursor:pointer;"
                           img src= "http://www.bungie.net#{emblem}" style="width:40px; height: 40px;" onclick="hide_panel('#{member['name']}', #{i})"
             div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
               - member["characters"].each_with_index do |character, i|
@@ -60,3 +61,4 @@ div class="container-fluid"
                         = partial '/users/gear_row', locals: { gear: character["gear"]["ship"] }
                         = partial '/users/gear_row', locals: { gear: character["gear"]["sparrow"] }
                         = partial '/users/gear_row', locals: { gear: character["gear"]["ghost_shell"] }
+                        = partial '/users/gear_row', locals: { gear: character["gear"]["emblem"] }
