@@ -24,12 +24,13 @@ div class="container-fluid"
                       = member["name"]
                   div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey; font-size:8pt;"
                     p
-                      img src="http://desimg.zamimg.com/static/image/guardian/icon_grimoire_lightgray.png" style="width:10px; height:10px;"
+                      img src="http://www.donderis.net/images/grimoire.png" style="width:10px; height:10px;"
                       = " #{member['grimoire_score']}"
                       br
-                      = "Glimmer: #{member['glimmer']}"
+                      img src="http://www.donderis.net/images/glimmer.png" style="width:11px; height:11px;"
+                      = " #{member['glimmer']}"
                       br
-                      = "Total time played: #{member['total_minutes_played']} hours"
+                      = "Total time played #{member['total_minutes_played']} hours"
                     - emblems = []
                     - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
                     - if emblems.any?
@@ -44,29 +45,27 @@ div class="container-fluid"
                     a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
                       div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block; font-size:15px"
                         div class="row"
-                          div class="col-sm-10 col-md-10"
+                          div class="col-sm-12 col-md-12"
                             img src= "http://www.bungie.net#{character["emblem_path"]}"
                             = "#{character['gender']} #{character['race']} #{character['class']}".capitalize
-                          div class="col-sm-2 col-md-2"
                             span style="float:right; font-size:30px; top:8px"
                               ="#{character['character_level']}"
                       span style="font-size:8pt; color:white; float:right;"
                         = "last played on #{Time.parse(character["last_played"]).strftime('%A %B %d') rescue ''}"
 
                   div id="collapse_#{member["name"]}_#{i}" class= "panel-collapse collapse in"  role="tabpanel" aria-labelledby="heading_#{i}"
-                    div class="panel-body"
-                      ul class="list-group"
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["subclass"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["primary_weapon"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["special_weapon"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["heavy_weapon"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["helmet"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["gaunlets"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["chest"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["boots"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["class_armor"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["shader"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["ship"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["sparrow"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["ghost_shell"] }
-                        = partial '/users/gear_row', locals: { gear: character["gear"]["emblem"] }
+                    ul class="list-group"
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["subclass"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["primary_weapon"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["special_weapon"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["heavy_weapon"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["helmet"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["gaunlets"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["chest"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["boots"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["class_armor"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["shader"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["ship"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["sparrow"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["ghost_shell"] }
+                      = partial '/users/gear_row', locals: { gear: character["gear"]["emblem"] }
