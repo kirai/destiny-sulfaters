@@ -22,7 +22,7 @@ class BungieConnector
   end
 
   def get_id_for_member(member)
-    url = "http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/#{member.platform}/#{member.username}/"
+    url = "http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/#{get_platform(member)}/#{member.username}/"
     member_json = JSON.parse(open(url).read)
     member_json["Response"].first["membershipId"]
   end
@@ -71,6 +71,7 @@ class BungieConnector
 
       char_hash = {}
       char_hash['power_level'] = character_data_json["characterBase"]["powerLevel"]
+      char_hash['character_level'] = character_data_json["characterLevel"]
       char_hash['last_played'] = character_data_json["characterBase"]["dateLastPlayed"]
       char_hash['last_minutes_played'] = character_data_json["characterBase"]["minutesPlayedThisSession"]
       char_hash['percent_to_next_level'] = character_data_json["percentToNextLevel"]

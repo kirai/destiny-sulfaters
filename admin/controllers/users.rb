@@ -8,7 +8,7 @@ Sulfaters::Admin.controllers :users do
   get :new do
     @title = pat(:new_title, :model => 'user')
     @user = User.new
-    @clans = Clan.scoped.collect{|clan| [clan.name, clan.id]}
+    @clans = Clan.all.collect{|clan| [clan.name, clan.id]}
     render 'users/new'
   end
 
@@ -28,7 +28,7 @@ Sulfaters::Admin.controllers :users do
   get :edit, :with => :id do
     @title = pat(:edit_title, :model => "user #{params[:id]}")
     @user = User.find(params[:id])
-    @clans = Clan.scoped.collect{|clan| [clan.name, clan.id]}
+    @clans = Clan.all.collect{|clan| [clan.name, clan.id]}
     if @user
       render 'users/edit'
     else

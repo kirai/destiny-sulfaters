@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
     unless hash || force_request
       connector = BungieConnector.new
       hash = {}
-      member_data = connector.member_data(self.username)
+      member_data = connector.member_data(self)
       hash['name'] = self.username
       hash['glimmer'] = member_data['glimmer']
       hash['grimoire_score'] = member_data['grimoire_score']
