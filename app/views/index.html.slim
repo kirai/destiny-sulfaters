@@ -27,6 +27,8 @@ div class="container-fluid"
                       = "Glimmer #{member['glimmer']}"
                       br
                       = "Grimoire Score #{member['grimoire_score']}"
+                      br
+                      = "Total time played #{member['total_minutes_played']} hours"
                     - emblems = []
                     - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
                     - if emblems.any?
@@ -40,10 +42,15 @@ div class="container-fluid"
                   h4 class="panel-title"
                     a data-toggle="collapse" data-parent="#accordion_#{m}" href="#collapse_#{member["name"]}_#{i}" aria-expanded= "#{i == 0 ? 'true' : 'false'}" aria-controls="collapse_#{member["name"]}_#{i}"
                       div style= "background-image: url('http://www.bungie.net#{character["emblem_background"]}'); background-size = 'auto 100%'; color:white; display:block; font-size:15px"
-                        img src= "http://www.bungie.net#{character["emblem_path"]}"
-                        = "#{character['gender']} #{character['race']} #{character['class']}".capitalize
-                        span style="float:right; font-size:30px; top:8px"
-                          ="#{character['character_level']}"
+                        div class="row"
+                          div class="col-sm-10 col-md-10"
+                            img src= "http://www.bungie.net#{character["emblem_path"]}"
+                            = "#{character['gender']} #{character['race']} #{character['class']}".capitalize
+                          div class="col-sm-2 col-md-2"
+                            span style="float:right; font-size:30px; top:8px"
+                              ="#{character['character_level']}"
+                      span style="font-size:8pt; color:white; float:right;"
+                        = "last played on #{Time.parse(character["last_played"]).strftime('%A %B %d') rescue ''}"
 
                   div id="collapse_#{member["name"]}_#{i}" class= "panel-collapse collapse in"  role="tabpanel" aria-labelledby="heading_#{i}"
                     div class="panel-body"

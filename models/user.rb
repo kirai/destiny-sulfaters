@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
       hash['glimmer'] = member_data['glimmer']
       hash['grimoire_score'] = member_data['grimoire_score']
       hash['characters']= connector.characters_by_member(self)
+      hash['total_minutes_played'] = hash['characters'].sum{|char| char["total_minutes_played"].to_i} / 60
       Padrino.cache.store "cached_hash_#{self.id}", hash, expires: 3600
     end
     return hash
