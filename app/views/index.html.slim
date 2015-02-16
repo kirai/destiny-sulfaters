@@ -22,13 +22,14 @@ div class="container-fluid"
                   div class="col-sm-6 col-md-6"
                     h2
                       = member["name"]
-                  div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey"
+                  div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey; font-size:8pt;"
                     p
-                      = "Glimmer #{member['glimmer']}"
+                      img src="http://desimg.zamimg.com/static/image/guardian/icon_grimoire_lightgray.png" style="width:10px; height:10px;"
+                      = " #{member['grimoire_score']}"
                       br
-                      = "Grimoire Score #{member['grimoire_score']}"
+                      = "Glimmer: #{member['glimmer']}"
                       br
-                      = "Total time played #{member['total_minutes_played']} hours"
+                      = "Total time played: #{member['total_minutes_played']} hours"
                     - emblems = []
                     - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
                     - if emblems.any?
