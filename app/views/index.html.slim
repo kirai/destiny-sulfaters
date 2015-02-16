@@ -31,13 +31,15 @@ div class="container-fluid"
                       = " #{member['glimmer']}"
                       br
                       = "Total time played: #{member['total_minutes_played']} hours"
-                    - emblems = []
-                    - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
-                    - if emblems.any?
-                      div class="row" style="display:block; margin:auto;"
-                      - emblems.each_with_index do |emblem, i|
-                        div class="col-sm-3 col-md-3 pull-right" style="cursor:pointer;"
-                          img src= "http://www.bungie.net#{emblem}" style="width:40px; height: 40px;" onclick="hide_panel('#{member['name']}', #{i})"
+            - emblems = []
+            - member["characters"].each_with_index{|char| emblems.unshift(char["emblem_path"])}
+            - if emblems.any?
+              div class="row"
+                div class="col-sm-12 col-md-12 pull-right"
+                  - emblems.each_with_index do |emblem, i|
+                     div class="pull-right" style="cursor:pointer; margin-left:5px; margin-bottom:5px;"
+                      img src= "http://www.bungie.net#{emblem}" style="width:40px; height: 40px;" onclick="hide_panel('#{member['name']}', #{i})"
+
             div class="panel-group" id="accordion_#{m}" role="tablist" aria-multiselectable="true"
               - member["characters"].reverse.each_with_index do |character, i|
                 div role="tab" id="heading_#{member["name"]}_#{i}" class="heading_#{member["name"]}" style="display: #{member["characters"].first == character ? 'block' : 'none'}"
