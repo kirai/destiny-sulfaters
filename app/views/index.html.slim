@@ -19,10 +19,9 @@ div class="container-fluid"
             center
               li class="list-group-item" style="background:black; border:0px; color:white"
                 div class="row"
-                  div class="col-sm-6 col-md-6"
-                    h2
-                      = member["name"]
-                  div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey; font-size:8pt;"
+                  div class="col-sm-6 col-md-6 pull-left" style="margin-top:auto; margin-bottom:auto; height:50px; font-size:20pt;"
+                    = member["name"]
+                  div class="col-sm-6 col-md-6" style="text-align:right; color:lightgrey; font-size:8pt; float:left; margin-top:auto; margin-bottom:auto; height:50px; "
                     p
                       img src="http://www.donderis.net/images/grimoire.png" style="width:10px; height:10px;"
                       = " #{member['grimoire_score']}"
